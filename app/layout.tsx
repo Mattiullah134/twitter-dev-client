@@ -1,7 +1,16 @@
+"use client"
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import TwitterLayout from '@/components/layouts/TwitterLayout';
 
+const queryClient = new QueryClient()
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,7 +25,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <GoogleOAuthProvider clientId="770437249103-qpt0kdrdljem4mg921i9gu4s2of3if41.apps.googleusercontent.com">
+
+          <body  >
+
+            {children}
+          </body>
+        </GoogleOAuthProvider>
+      </QueryClientProvider>
     </html>
   )
 }
